@@ -27,7 +27,12 @@ void print_array(int sz, char (*a)[sz], char (*b)[sz], const char * title) {
                     printf("%3c",'*');
                 }
             } else {
-                printf("%3c",a[i][j]);
+                char ch = a[i][j];
+                if (ch == MINE) {
+                    printf("  \033[41m%c\033[0m",ch);
+                } else {
+                    printf("%3c",ch);
+                }
             }
         }
         printf("\n");
@@ -152,6 +157,10 @@ int main(int argc, char * argv[]) {
             printf("\n");
             break;
         } else {
+            if (info[pos_i][pos_j] == OPEN) {
+                puts("该位置已被翻开，请重新输入");
+                continue;
+            }
             // 从指定位置递归查找所有非0的块,并标记为打开
             if (ch == EMPT) {
                 open_block(sz, array, info, pos_i, pos_j);
